@@ -189,7 +189,16 @@ func (enc *AacEncoder) Encode(in, out []byte) (n int, err error) {
 
 // Flush
 func (enc *AacEncoder) Flush(out []byte) (n int, err error) {
-	return enc.Encode(nil, out)
+	validBytes := 0
+	for {
+		validBytes, err = enc.Encode(nil, out[n:])
+		n += validBytes
+		if err == EncEOF {
+			return n, nil
+		} else if err != nil {
+			return n, err
+		}
+	}
 }
 
 func (enc *AacEncoder) GetInfo() (*EncInfo, error) {

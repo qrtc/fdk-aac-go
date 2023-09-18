@@ -46,17 +46,9 @@ var _ = Describe("AAC enc test", func() {
 		Expect(err).To(BeNil())
 		Expect(n).To(Equal(139))
 
-		n, err = encoder.Encode(nil, output)
+		n, err = encoder.Flush(output)
 		Expect(err).To(BeNil())
-		Expect(n).To(Equal(224))
-
-		n, err = encoder.Encode(nil, output)
-		Expect(err).To(BeNil())
-		Expect(n).To(Equal(193))
-
-		n, err = encoder.Encode(nil, output)
-		Expect(err).To(Equal(EncEOF))
-		Expect(n).To(Equal(0))
+		Expect(n).To(Equal(417))
 	})
 })
 
