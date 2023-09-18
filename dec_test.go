@@ -57,14 +57,24 @@ var _ = Describe("", func() {
 		Expect(err).To(BeNil())
 		Expect(n).To(Equal(4096))
 
-		n, err = decoder.DecodeFrame(AAC1, outBuf)
+		n, err = decoder.DecodeFrame(AAC1[0:9], outBuf)
+		Expect(err).To(Equal(DecNotEnoughBits))
+		Expect(n).To(Equal(0))
+
+		n, err = decoder.DecodeFrame(AAC1[9:], outBuf)
 		Expect(err).To(BeNil())
 		Expect(n).To(Equal(4096))
+
+		n, err = decoder.DecodeFrame(AAC2[0:9], outBuf)
+		Expect(err).To(Equal(DecNotEnoughBits))
+		Expect(n).To(Equal(0))
+
+		err = decoder.Flush()
+		Expect(err).To(BeNil())
 
 		n, err = decoder.DecodeFrame(AAC2, outBuf)
 		Expect(err).To(BeNil())
 		Expect(n).To(Equal(4096))
-
 	})
 
 	It("Decoder decode raw", func() {
