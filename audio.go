@@ -264,5 +264,5 @@ const (
 	defaultSampleBitdepth = 16
 	defaultAOT            = AotAacLc
 	defaultSamplerate     = 44100
-	defaultBitrate        = 48000
+	defaultBitrate        = 64000
 )

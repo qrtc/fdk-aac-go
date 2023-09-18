@@ -169,6 +169,8 @@ type AacEncoder struct {
 	ph C.HANDLE_AACENCODER
 	// config
 	AacEncoderConfig
+	// info
+	info *EncInfo
 }
 
 // Encode
@@ -235,9 +237,9 @@ func (enc *AacEncoder) Close() error {
 }
 
 // Create AAC Encoder
-func CreateAccEncoder(config *AacEncoderConfig) (*AacEncoder, error) {
+func CreateAccEncoder(config *AacEncoderConfig) (enc *AacEncoder, err error) {
 	var errNo C.AACENC_ERROR = C.AACENC_OK
-	enc := &AacEncoder{
+	enc = &AacEncoder{
 		AacEncoderConfig: *populateEncConfig(config),
 	}
 
@@ -360,8 +362,13 @@ func CreateAccEncoder(config *AacEncoderConfig) (*AacEncoder, error) {
 	if enc.MetaDataMode != MetaDataModeNone {
 		panic("TODO. support metadata mode")
 	}
+
 	if errNo = C.aacEncEncode(enc.ph, nil, nil, nil, nil); errNo != C.AACENC_OK {
 		return nil, encErrors[errNo]
+	}
+
+	if enc.info, err = enc.GetInfo(); err != nil {
+		return nil, err
 	}
 
 	return enc, encErrors[errNo]

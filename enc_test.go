@@ -18,7 +18,10 @@ var _ = Describe("AAC enc test", func() {
 
 	It("Encoder create and close", func() {
 		encoder, err = CreateAccEncoder(&AacEncoderConfig{
-			TransMux: TtMp4Adts,
+			TransMux:    TtMp4Adts,
+			AOT:         AotAacLc,
+			SampleRate:  44100,
+			MaxChannels: 2,
 		})
 		Expect(err).To(BeNil())
 		Expect(encoder.ph).NotTo(BeNil())
@@ -28,8 +31,8 @@ var _ = Describe("AAC enc test", func() {
 		Expect(info).NotTo(BeNil())
 		Expect(info.FrameLength).To(Equal(uint(1024)))
 		Expect(len(info.ConfBuf)).To(Equal(2))
-		Expect(info.ConfBuf[0]).To(Equal(uint8(18)))
-		Expect(info.ConfBuf[1]).To(Equal(uint8(16)))
+		Expect(info.ConfBuf[0]).To(Equal(uint8(0x12)))
+		Expect(info.ConfBuf[1]).To(Equal(uint8(0x10)))
 
 		err = encoder.Close()
 		Expect(err).To(BeNil())
@@ -40,15 +43,15 @@ var _ = Describe("AAC enc test", func() {
 		encoder, err = CreateAccEncoder(&AacEncoderConfig{
 			TransMux: TtMp4Adts,
 		})
-		output := make([]byte, 1024)
 
+		output := make([]byte, 1024)
 		n, err := encoder.Encode(PCM0, output)
 		Expect(err).To(BeNil())
-		Expect(n).To(Equal(139))
+		Expect(n).To(Equal(185))
 
 		n, err = encoder.Flush(output)
 		Expect(err).To(BeNil())
-		Expect(n).To(Equal(417))
+		Expect(n).To(Equal(538))
 	})
 })
 

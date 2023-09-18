@@ -32,7 +32,7 @@ import (
 
 func main() {
 	decoder, err := fdkaac.CreateAccDecoder(&fdkaac.AacDecoderConfig{
-		TransportFmt: fdkaac.TtMp4Raw,
+		TransportFmt: fdkaac.TtMp4Adts,
 	})
 	if err != nil {
 		fmt.Println(err)
@@ -69,7 +69,10 @@ import (
 
 func main() {
 	encoder, err := fdkaac.CreateAccEncoder(&fdkaac.AacEncoderConfig{
-		TransMux: fdkaac.TtMp4Raw,
+		TransMux:    TtMp4Adts,
+		AOT:         AotAacLc,
+		SampleRate:  44100,
+		MaxChannels: 2,
 	})
 	if err != nil {
 		fmt.Println(err)
