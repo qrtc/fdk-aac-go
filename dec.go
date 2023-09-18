@@ -252,8 +252,6 @@ type CStreamInfo struct {
 	DrcProgRefLev int8
 	// DRC presentation mode.
 	DrcPresMode int8
-	// Audio output loudness in steps of -0.25 dB.
-	OutputLoudness int
 }
 
 type AacDecoder struct {
@@ -334,7 +332,6 @@ func (dec *AacDecoder) GetStreamInfo() (*CStreamInfo, error) {
 		NumBadAccessUnits:   int64(originInfo.numBadAccessUnits),
 		DrcProgRefLev:       int8(originInfo.drcProgRefLev),
 		DrcPresMode:         int8(originInfo.drcPresMode),
-		OutputLoudness:      int(originInfo.outputLoudness),
 	}, nil
 }
 
