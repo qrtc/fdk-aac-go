@@ -17,7 +17,9 @@ var _ = Describe("AAC enc test", func() {
 	})
 
 	It("Encoder create and close", func() {
-		encoder, err = CreateAccEncoder(nil)
+		encoder, err = CreateAccEncoder(&AacEncoderConfig{
+			TransMux: TtMp4Adts,
+		})
 		Expect(err).To(BeNil())
 		Expect(encoder.ph).NotTo(BeNil())
 
@@ -35,7 +37,9 @@ var _ = Describe("AAC enc test", func() {
 	})
 
 	It("Encode", func() {
-		encoder, err = CreateAccEncoder(nil)
+		encoder, err = CreateAccEncoder(&AacEncoderConfig{
+			TransMux: TtMp4Adts,
+		})
 		output := make([]byte, 1024)
 
 		n, err := encoder.Encode(PCM0, output)

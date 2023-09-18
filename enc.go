@@ -382,9 +382,6 @@ func populateEncConfig(c *AacEncoderConfig) *AacEncoderConfig {
 	if c.Bitrate == 0 {
 		c.Bitrate = defaultBitrate
 	}
-	if c.TransMux == 0 {
-		c.TransMux = defaultTransportType
-	}
 
 	return c
 }

@@ -1,3 +1,4 @@
+[![PkgGoDev](https://pkg.go.dev/badge/github.com/qrtc/fdk-aac-go)](https://pkg.go.dev/github.com/qrtc/fdk-aac-go)
 
 # fdk-aac-go
 

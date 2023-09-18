@@ -265,5 +265,4 @@ const (
 	defaultAOT            = AotAacLc
 	defaultSamplerate     = 44100
 	defaultBitrate        = 48000
-	defaultTransportType  = TtMp4Adts
 )
