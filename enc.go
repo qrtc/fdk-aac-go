@@ -209,15 +209,6 @@ func (enc *AacEncoder) GetInfo() (*EncInfo, error) {
 		return nil, encErrors[errNo]
 	}
 
-	dumpArray := func(array *C.uchar, length int) []byte {
-		buf := make([]byte, length)
-		for i := 0; i < length; i++ {
-			buf[i] = *(*byte)(unsafe.Pointer(uintptr(unsafe.Pointer(array)) +
-				uintptr(i*int(unsafe.Sizeof(*array)))))
-		}
-		return buf
-	}
-
 	return &EncInfo{
 		MaxOutBufBytes: uint(info.maxOutBufBytes),
 		MaxAncBytes:    uint(info.maxAncBytes),
@@ -226,7 +217,7 @@ func (enc *AacEncoder) GetInfo() (*EncInfo, error) {
 		FrameLength:    uint(info.frameLength),
 		NDelay:         uint(info.nDelay),
 		NDelayCore:     uint(info.nDelay),
-		ConfBuf:        dumpArray(&info.confBuf[0], int(info.confSize)),
+		ConfBuf:        C.GoBytes(unsafe.Pointer(&info.confBuf[0]), C.int(info.confSize)),
 		ConfSize:       uint(info.confSize),
 	}, nil
 }
